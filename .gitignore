@@ -1,0 +1,35 @@
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+*.iml
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# Build output
+*.o
+*.a
+*.dylib
+*.so
+*.out
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Executables
+crumb
+a.out
