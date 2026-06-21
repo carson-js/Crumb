@@ -3,7 +3,4 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-int main(void) {
-    CPU cpu;
-    return 0;
-}
+
