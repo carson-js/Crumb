@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#define START_ADDRESS 0x200
+
 typedef struct {
     uint8_t registers[16];
     uint8_t memory[4096];
