@@ -45,3 +45,38 @@ void cpuInit(CPU *cpu) {
 
 }
 
+int loadROM(CPU *cpu, char *romFilename) {
+    FILE *romFile = fopen(romFilename, "rb");
+    if (romFile == NULL) {
+        perror(romFilename);
+        return ERROR_READING_ROM;
+    }
+    if (fseek(romFile, 0, SEEK_END) != 0) {
+        fclose(romFile);
+        return ERROR_READING_ROM;
+    }
+    long size = ftell(romFile);
+    if (size == -1) {
+        fclose(romFile);
+        return ERROR_READING_ROM;
+    }
+    if (fseek(romFile, 0, SEEK_SET) != 0) {
+        fclose(romFile);
+        return ERROR_READING_ROM;
+    }
+    if (size > MAX_ROM_SIZE) {
+        fclose(romFile);
+        return ERROR_READING_ROM;
+    }
+    uint8_t buffer[size];
+    if (fread(buffer, 1, size, romFile) != size) {
+        fclose(romFile);
+        return ERROR_READING_ROM;
+    }
+    fclose(romFile);
+    for (long i = 0; i < size; ++i) {
+        cpu->memory[START_ADDRESS + i] = buffer[i];
+    }
+    return SUCCESS;
+}
+

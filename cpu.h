@@ -3,6 +3,9 @@
 #include <stdint.h>
 
 #define START_ADDRESS 0x200
+#define ERROR_READING_ROM 2
+#define SUCCESS 0
+#define MAX_ROM_SIZE 0xE00
 
 typedef struct {
     uint8_t registers[16];
@@ -17,3 +20,5 @@ typedef struct {
     uint32_t screen[64 * 32];
     uint16_t opcode;
 } CPU;
+
+void cpuInit(CPU *cpu);
