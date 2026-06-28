@@ -114,7 +114,30 @@ void op_4XKK(CPU *cpu) {}
 void op_5XY0(CPU *cpu) {}
 void op_6XKK(CPU *cpu) {}
 void op_7XKK(CPU *cpu) {}
-void op_8XY(CPU *cpu) {}
+void op_8XY(CPU *cpu) {
+    switch (cpu->opcode & 0x000F) {
+        case 0x0:
+            break;
+        case 0x1:
+            break;
+        case 0x2:
+            break;
+        case 0x3:
+            break;
+        case 0x4:
+            break;
+        case 0x5:
+            break;
+        case 0x6:
+            break;
+        case 0x7:
+            break;
+        case 0xE:
+            break;
+        default:
+            break;
+    }
+}
 void op_9XY0(CPU *cpu) {}
 void op_ANNN(CPU *cpu) {}
 void op_BNNN(CPU *cpu) {}
