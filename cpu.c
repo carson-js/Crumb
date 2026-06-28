@@ -121,7 +121,9 @@ void op_2NNN(CPU *cpu) {}
 void op_3XKK(CPU *cpu) {}
 void op_4XKK(CPU *cpu) {}
 void op_5XY0(CPU *cpu) {}
-void op_6XKK(CPU *cpu) {}
+void op_6XKK(CPU *cpu) {
+    cpu->registers[(cpu->opcode & 0x0F00) >> 8] = cpu->opcode & 0x00FF;
+}
 void op_7XKK(CPU *cpu) {}
 void op_8XY(CPU *cpu) {
     switch (cpu->opcode & 0x000F) {
