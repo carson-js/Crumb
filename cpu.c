@@ -80,3 +80,45 @@ int loadROM(CPU *cpu, char *romFilename) {
     return SUCCESS;
 }
 
+void cpuCycle(CPU *cpu) {
+    cpu->opcode = (cpu->memory[cpu->pc] << 8) | cpu->memory[cpu->pc + 1];
+    cpu->pc += 2;
+    uint8_t opcode_id = cpu->opcode >> 12;
+    op_table[opcode_id](cpu);
+}
+
+void (*op_table[0x10])(CPU *cpu) = {
+    op_00E,
+    op_1NNN,
+    op_2NNN,
+    op_3XKK,
+    op_4XKK,
+    op_5XY0,
+    op_6XKK,
+    op_7XKK,
+    op_8XY,
+    op_9XY0,
+    op_ANNN,
+    op_BNNN,
+    op_CXKK,
+    op_DXYN,
+    op_EX,
+    op_FX
+};
+
+void op_00E(CPU *cpu) {}
+void op_1NNN(CPU *cpu) {}
+void op_2NNN(CPU *cpu) {}
+void op_3XKK(CPU *cpu) {}
+void op_4XKK(CPU *cpu) {}
+void op_5XY0(CPU *cpu) {}
+void op_6XKK(CPU *cpu) {}
+void op_7XKK(CPU *cpu) {}
+void op_8XY(CPU *cpu) {}
+void op_9XY0(CPU *cpu) {}
+void op_ANNN(CPU *cpu) {}
+void op_BNNN(CPU *cpu) {}
+void op_CXKK(CPU *cpu) {}
+void op_DXYN(CPU *cpu) {}
+void op_EX(CPU *cpu) {}
+void op_FX(CPU *cpu) {}
