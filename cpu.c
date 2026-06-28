@@ -106,7 +106,16 @@ void (*op_table[0x10])(CPU *cpu) = {
     op_FX
 };
 
-void op_00E(CPU *cpu) {}
+void op_00E(CPU *cpu) {
+    switch (cpu->opcode & 0x000F) {
+        case 0x0:
+            break;
+        case 0xE:
+            break;
+        default:
+            break;
+    }
+}
 void op_1NNN(CPU *cpu) {}
 void op_2NNN(CPU *cpu) {}
 void op_3XKK(CPU *cpu) {}
@@ -143,5 +152,35 @@ void op_ANNN(CPU *cpu) {}
 void op_BNNN(CPU *cpu) {}
 void op_CXKK(CPU *cpu) {}
 void op_DXYN(CPU *cpu) {}
-void op_EX(CPU *cpu) {}
-void op_FX(CPU *cpu) {}
+void op_EX(CPU *cpu) {
+    switch (cpu->opcode & 0x00FF) {
+        case 0xA1:
+            break;
+        case 0x9E:
+            break;
+        default:
+            break;
+    }
+}
+void op_FX(CPU *cpu) {
+    switch (cpu->opcode & 0x00FF) {
+        case 0x07:
+            break;
+        case 0x0A:
+            break;
+        case 0x18:
+            break;
+        case 0x1E:
+            break;
+        case 0x29:
+            break;
+        case 0x33:
+            break;
+        case 0x55:
+            break;
+        case 0x65:
+            break;
+        default:
+            break;
+    }
+}
