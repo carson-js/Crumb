@@ -164,20 +164,50 @@ void op_8XY(CPU *cpu) {
         case 0x3:
             cpu->registers[x] = cpu->registers[x] ^ cpu->registers[y];
             break;
-        case 0x4:
-            
+        case 0x4: {
+            uint16_t sum = cpu->registers[x] + cpu->registers[y];
+            if (sum > 255) {
+                cpu->registers[0xF] = 1;
+            }
+            sum = sum & 0x00FF;
+            cpu->registers[x] = sum;
             break;
-        case 0x5:
-
+        }
+        case 0x5: {
+            uint8_t difference = cpu->registers[x] - cpu->registers[y];
+            if (cpu->registers[x] > cpu->registers[y]) {
+                cpu->registers[0xF] = 1;
+            } else {
+                cpu->registers[0xF] = 0;
+            }
+            cpu->registers[x] = difference;
             break;
+        }
         case 0x6:
-
+            if (cpu->registers[x] & 0x0001) {
+                cpu->registers[0xF] = 1;
+            } else {
+                cpu->registers[0xF] = 0;
+            }
+            cpu->registers[x] /= 2;
             break;
-        case 0x7:
-
+        case 0x7: {
+            uint8_t difference = cpu->registers[y] - cpu->registers[x];
+            if (cpu->registers[y] > cpu->registers[x]) {
+                cpu->registers[0xF] = 1;
+            } else {
+                cpu->registers[0xF] = 0;
+            }
+            cpu->registers[x] = difference;
             break;
+        }
         case 0xE:
-
+            if (cpu->registers[x] & 0x80) {
+                cpu->registers[0xF] = 1;
+            } else {
+                cpu->registers[0xF] = 0;
+            }
+            cpu->registers[x] *= 2;
             break;
         default:
             break;
