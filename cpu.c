@@ -119,50 +119,65 @@ void op_00E(CPU *cpu) {
             break;
     }
 }
-void op_1NNN(CPU *cpu) {}
+void op_1NNN(CPU *cpu) {
+    cpu->pc = cpu->opcode & 0x0FFF;
+}
 void op_2NNN(CPU *cpu) {
     cpu->sp += 1;
     cpu->stack[cpu->sp] = cpu->pc;
-    cpu->pc = (cpu->opcode & 0x0FFF);
+    cpu->pc = cpu->opcode & 0x0FFF;
 }
 void op_3XKK(CPU *cpu) {
-    if ((cpu->registers[(cpu->opcode & 0x0F00) >> 8]) == (cpu->opcode & 0x00FF)) {
+    if (cpu->registers[(cpu->opcode & 0x0F00) >> 8] == (cpu->opcode & 0x00FF)) {
         cpu->pc += 2;
     }
 }
 void op_4XKK(CPU *cpu) {
-    if ((cpu->registers[(cpu->opcode & 0x0F00) >> 8]) != (cpu->opcode & 0x00FF)) {
+    if (cpu->registers[(cpu->opcode & 0x0F00) >> 8] != (cpu->opcode & 0x00FF)) {
         cpu->pc += 2;
     }
 }
 void op_5XY0(CPU *cpu) {
-    if ((cpu->registers[(cpu->opcode & 0x0F00) >> 8]) == (cpu->registers[(cpu->opcode & 0x00F0) >> 4])) {
+    if (cpu->registers[(cpu->opcode & 0x0F00) >> 8] == cpu->registers[(cpu->opcode & 0x00F0) >> 4]) {
         cpu->pc += 2;
     }
 }
 void op_6XKK(CPU *cpu) {
     cpu->registers[(cpu->opcode & 0x0F00) >> 8] = cpu->opcode & 0x00FF;
 }
-void op_7XKK(CPU *cpu) {}
+void op_7XKK(CPU *cpu) {
+    cpu->registers[(cpu->opcode & 0x0F00) >> 8] += cpu->opcode & 0x00FF;
+}
 void op_8XY(CPU *cpu) {
+    const uint8_t x = (cpu->opcode & 0x0F00) >> 8;
+    const uint8_t y = (cpu->opcode & 0x00F0) >> 4;
     switch (cpu->opcode & 0x000F) {
         case 0x0:
+            cpu->registers[x] = cpu->registers[y];
             break;
         case 0x1:
+            cpu->registers[x] = cpu->registers[x] | cpu->registers[y];
             break;
         case 0x2:
+            cpu->registers[x] = cpu->registers[x] & cpu->registers[y];
             break;
         case 0x3:
+            cpu->registers[x] = cpu->registers[x] ^ cpu->registers[y];
             break;
         case 0x4:
+            
             break;
         case 0x5:
+
             break;
         case 0x6:
+
             break;
         case 0x7:
+
             break;
         case 0xE:
+
             break;
         default:
             break;
