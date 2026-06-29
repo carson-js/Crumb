@@ -109,18 +109,37 @@ void (*op_table[0x10])(CPU *cpu) = {
 void op_00E(CPU *cpu) {
     switch (cpu->opcode & 0x000F) {
         case 0x0:
+            memset(cpu->screen, 0, sizeof(cpu->screen));
             break;
         case 0xE:
+            cpu->pc = cpu->stack[cpu->sp];
+            cpu->sp -= 1;
             break;
         default:
             break;
     }
 }
 void op_1NNN(CPU *cpu) {}
-void op_2NNN(CPU *cpu) {}
-void op_3XKK(CPU *cpu) {}
-void op_4XKK(CPU *cpu) {}
-void op_5XY0(CPU *cpu) {}
+void op_2NNN(CPU *cpu) {
+    cpu->sp += 1;
+    cpu->stack[cpu->sp] = cpu->pc;
+    cpu->pc = (cpu->opcode & 0x0FFF);
+}
+void op_3XKK(CPU *cpu) {
+    if ((cpu->registers[(cpu->opcode & 0x0F00) >> 8]) == (cpu->opcode & 0x00FF)) {
+        cpu->pc += 2;
+    }
+}
+void op_4XKK(CPU *cpu) {
+    if ((cpu->registers[(cpu->opcode & 0x0F00) >> 8]) != (cpu->opcode & 0x00FF)) {
+        cpu->pc += 2;
+    }
+}
+void op_5XY0(CPU *cpu) {
+    if ((cpu->registers[(cpu->opcode & 0x0F00) >> 8]) == (cpu->registers[(cpu->opcode & 0x00F0) >> 4])) {
+        cpu->pc += 2;
+    }
+}
 void op_6XKK(CPU *cpu) {
     cpu->registers[(cpu->opcode & 0x0F00) >> 8] = cpu->opcode & 0x00FF;
 }
