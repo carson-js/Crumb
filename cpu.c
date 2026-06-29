@@ -213,11 +213,23 @@ void op_8XY(CPU *cpu) {
             break;
     }
 }
-void op_9XY0(CPU *cpu) {}
-void op_ANNN(CPU *cpu) {}
-void op_BNNN(CPU *cpu) {}
-void op_CXKK(CPU *cpu) {}
-void op_DXYN(CPU *cpu) {}
+void op_9XY0(CPU *cpu) {
+    if (cpu->registers[(cpu->opcode & 0x0F00) >> 8] != cpu->registers[(cpu->opcode & 0x00F0) >> 4]) {
+        cpu->pc += 2;
+    }
+}
+void op_ANNN(CPU *cpu) {
+    cpu->index = cpu->opcode & 0x0FFF;
+}
+void op_BNNN(CPU *cpu) {
+    cpu->pc = (cpu->opcode & 0x0FFF) + cpu->registers[0];
+}
+void op_CXKK(CPU *cpu) {
+    cpu->registers[(cpu->opcode & 0x0F00) >> 8] = rand() & (cpu->opcode & 0x00FF);
+}
+void op_DXYN(CPU *cpu) {
+    
+}
 void op_EX(CPU *cpu) {
     switch (cpu->opcode & 0x00FF) {
         case 0xA1:
