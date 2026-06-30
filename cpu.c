@@ -261,21 +261,49 @@ void op_EX(CPU *cpu) {
 void op_FX(CPU *cpu) {
     switch (cpu->opcode & 0x00FF) {
         case 0x07:
+            cpu->registers[(cpu->opcode & 0x0F00) >> 8] = cpu->delayTimer;
             break;
-        case 0x0A:
+        case 0x0A: {
+            unsigned int key_pressed = 0;
+            for (unsigned int i = 0; i < 16; i++) {
+                if (cpu->keys[i] == 1) {
+                    key_pressed = 1;
+                    cpu->registers[(cpu->opcode & 0x0F00) >> 8] = i;
+                    break;
+                }
+            }
+            if (!key_pressed) {
+                cpu->pc -= 2;
+            }
+            break;
+        }
+        case 0x15:
+            cpu->delayTimer = cpu->registers[(cpu->opcode & 0x0F00) >> 8];
             break;
         case 0x18:
+            cpu->soundTimer = cpu->registers[(cpu->opcode & 0x0F00) >> 8];
             break;
         case 0x1E:
+            cpu->index = cpu->index + cpu->registers[(cpu->opcode & 0x0F00) >> 8];
             break;
         case 0x29:
             break;
         case 0x33:
             break;
-        case 0x55:
+        case 0x55: {
+            const uint8_t VX = (cpu->opcode & 0x0F00) >> 8;
+            for (unsigned int i = 0; i <= VX; i++) {
+                cpu->memory[cpu->index + i] = cpu->registers[i];
+            }
+                break;
+        }
+        case 0x65: {
+            const uint8_t VX = (cpu->opcode & 0x0F00) >> 8;
+            for (unsigned int i = 0; i <= VX; i++) {
+                cpu->registers[i] = cpu->memory[cpu->index + i];
+            }
             break;
-        case 0x65:
-            break;
+        }
         default:
             break;
     }
