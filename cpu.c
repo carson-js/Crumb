@@ -247,9 +247,15 @@ void op_DXYN(CPU *cpu) {
 }
 void op_EX(CPU *cpu) {
     switch (cpu->opcode & 0x00FF) {
-        case 0xA1:
-            break;
         case 0x9E:
+            if (cpu->keys[cpu->registers[(cpu->opcode & 0x0F00) >> 8]] == 1) {
+                cpu->pc += 2;
+            }
+            break;
+        case 0xA1:
+            if (cpu->keys[cpu->registers[(cpu->opcode & 0x0F00) >> 8]] != 1) {
+                cpu->pc += 2;
+            }
             break;
         default:
             break;
@@ -289,7 +295,7 @@ void op_FX(CPU *cpu) {
         case 0x33: {
             unsigned int number = cpu->registers[(cpu->opcode & 0x0F00) >> 8];
             for (int i = 2; i >= 0; i--) {
-                unsigned int digit = number % 10;
+                const unsigned int digit = number % 10;
                 cpu->memory[cpu->index + i] = digit;
                 number /= 10;
             }
