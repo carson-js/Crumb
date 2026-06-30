@@ -8,6 +8,9 @@
 #define MAX_ROM_SIZE 0xE00
 #define SCREEN_WIDTH 64
 #define SCREEN_HEIGHT 32
+#define FONTSET_START_ADDRESS  0x50
+#define FONTSET_SIZE 80
+#define CHARACTER_BYTES 5
 
 typedef struct {
     uint8_t registers[16];

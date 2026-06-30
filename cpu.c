@@ -17,7 +17,6 @@ void cpuInit(CPU *cpu) {
     memset(cpu->screen, 0, sizeof(cpu->screen));
     cpu->opcode = 0;
 
-    const unsigned int FONTSET_SIZE = 80;
     uint8_t fontset[FONTSET_SIZE] = {
         0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
         0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -36,8 +35,6 @@ void cpuInit(CPU *cpu) {
         0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
         0xF0, 0x80, 0xF0, 0x80, 0x80  // F
     };
-
-    const unsigned int FONTSET_START_ADDRESS = 0x50;
 
     for (unsigned int i = 0; i < FONTSET_SIZE; i++) {
         cpu->memory[FONTSET_START_ADDRESS + i] = fontset[i];
@@ -287,9 +284,17 @@ void op_FX(CPU *cpu) {
             cpu->index = cpu->index + cpu->registers[(cpu->opcode & 0x0F00) >> 8];
             break;
         case 0x29:
+            cpu->index = FONTSET_START_ADDRESS + cpu->registers[(cpu->opcode & 0x0F00) >> 8] * CHARACTER_BYTES;
             break;
-        case 0x33:
+        case 0x33: {
+            unsigned int number = cpu->registers[(cpu->opcode & 0x0F00) >> 8];
+            for (int i = 2; i >= 0; i--) {
+                unsigned int digit = number % 10;
+                cpu->memory[cpu->index + i] = digit;
+                number /= 10;
+            }
             break;
+        }
         case 0x55: {
             const uint8_t VX = (cpu->opcode & 0x0F00) >> 8;
             for (unsigned int i = 0; i <= VX; i++) {
