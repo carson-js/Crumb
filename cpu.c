@@ -42,7 +42,7 @@ void cpuInit(CPU *cpu) {
 
 }
 
-int loadROM(CPU *cpu, char *romFilename) {
+int loadROM(CPU *cpu, const char *romFilename) {
     FILE *romFile = fopen(romFilename, "rb");
     if (romFile == NULL) {
         perror(romFilename);
@@ -82,6 +82,12 @@ void cpuCycle(CPU *cpu) {
     cpu->pc += 2;
     uint8_t opcode_id = cpu->opcode >> 12;
     op_table[opcode_id](cpu);
+    if (cpu->delayTimer > 0) {
+        --cpu->delayTimer;
+    }
+    if (cpu->soundTimer > 0) {
+        --cpu->soundTimer;
+    }
 }
 
 void (*op_table[0x10])(CPU *cpu) = {
