@@ -228,7 +228,25 @@ void op_CXKK(CPU *cpu) {
     cpu->registers[(cpu->opcode & 0x0F00) >> 8] = rand() & (cpu->opcode & 0x00FF);
 }
 void op_DXYN(CPU *cpu) {
-    
+    const uint8_t byte_count = cpu->opcode & 0x000F;
+    const uint8_t VX = cpu->registers[(cpu->opcode & 0x0F00) >> 8];
+    const uint8_t VY = cpu->registers[(cpu->opcode & 0x00F0) >> 4];
+    cpu->registers[0xF] = 0;
+    for (unsigned int i = cpu->index; i < cpu->index + byte_count; i++) {
+        const unsigned int row = i - cpu->index;
+        for (unsigned int col = 0; col < 8; col++) {
+            uint8_t col_mask = 0x80 >> col;
+            uint8_t screenX = (VX + col) % SCREEN_WIDTH;
+            uint8_t screenY = (VY + row) % SCREEN_HEIGHT;
+            uint32_t *pixel = &cpu->screen[screenY * SCREEN_WIDTH + screenX];
+            if (cpu->memory[i] & col_mask) {
+                if (*pixel == 0xFFFFFFFF) {
+                    cpu->registers[0xF] = 1;
+                }
+                *pixel ^= 0xFFFFFFFF;
+            }
+        }
+    }
 }
 void op_EX(CPU *cpu) {
     switch (cpu->opcode & 0x00FF) {

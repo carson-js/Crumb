@@ -6,6 +6,8 @@
 #define ERROR_READING_ROM 2
 #define SUCCESS 0
 #define MAX_ROM_SIZE 0xE00
+#define SCREEN_WIDTH 64
+#define SCREEN_HEIGHT 32
 
 typedef struct {
     uint8_t registers[16];
