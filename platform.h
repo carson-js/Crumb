@@ -9,4 +9,4 @@ typedef struct {
     SDL_Texture *texture;
 } Platform;
 
-int platformInit(Platform *platform, int *scale);
+int platformInit(Platform *platform, int scale);

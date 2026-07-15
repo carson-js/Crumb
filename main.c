@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     Platform platform;
     srand(time(NULL));
     cpuInit(&cpu);
-    if (platformInit(&platform, &scale)) {
+    if (platformInit(&platform, scale)) {
         printf("Error initializing SDL2 platform\n");
     }
     if (loadROM(&cpu, argv[3]) != 0) {
