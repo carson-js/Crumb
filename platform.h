@@ -1,6 +1,4 @@
 #pragma once
-#include <stdlib.h>
-#include "cpu.h"
 #include <SDL2/SDL.h>
 
 typedef struct {
