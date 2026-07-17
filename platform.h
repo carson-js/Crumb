@@ -8,3 +8,4 @@ typedef struct {
 } Platform;
 
 int platformInit(Platform *platform, int scale);
+void platformDestroy(Platform *platform);

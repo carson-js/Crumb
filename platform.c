@@ -37,3 +37,10 @@ int platformInit(Platform *platform, const int scale) {
     }
     return 0;
 }
+
+void platformDestroy(Platform *platform) {
+    SDL_DestroyWindow(platform->window);
+    SDL_DestroyRenderer(platform->renderer);
+    SDL_DestroyTexture(platform->texture);
+    SDL_Quit();
+}
