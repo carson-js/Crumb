@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include "cpu.h"
 
 typedef struct {
     SDL_Window *window;
@@ -10,3 +11,4 @@ typedef struct {
 int platformInit(Platform *platform, int scale);
 void platformDestroy(Platform *platform);
 void platformRender(Platform *platform, CPU *cpu);
+int platformProcessInput(CPU *cpu);
