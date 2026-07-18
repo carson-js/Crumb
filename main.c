@@ -18,12 +18,19 @@ int main(int argc, char **argv) {
     cpuInit(&cpu);
     if (platformInit(&platform, scale)) {
         printf("Error initializing SDL2 platform\n");
+        return 1;
     }
     if (loadROM(&cpu, argv[3]) != 0) {
         perror("Error loading ROM\n");
         return 2;
     }
-
+    int quit = 0;
+    while (!quit) {
+        quit = platformProcessInput(&cpu);
+        SDL_Delay(delay);
+        cpuCycle(&cpu);
+        platformRender(&platform, &cpu);
+    }
 	platformDestroy(&platform);
     return 0;
 }

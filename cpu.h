@@ -28,6 +28,7 @@ typedef struct {
 
 void cpuInit(CPU *cpu);
 int loadROM(CPU *cpu, const char *romFilename);
+void cpuCycle(CPU *cpu);
 
 void (*op_table[0x10])(CPU *cpu);
 void op_00E(CPU *cpu);
