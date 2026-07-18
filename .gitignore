@@ -33,3 +33,7 @@ _deps/
 # Executables
 crumb
 a.out
+
+# Tests
+roms/
+test_opcode.ch8
