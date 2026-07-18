@@ -9,3 +9,4 @@ typedef struct {
 
 int platformInit(Platform *platform, int scale);
 void platformDestroy(Platform *platform);
+void platformRender(Platform *platform, CPU *cpu);

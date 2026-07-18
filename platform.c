@@ -44,3 +44,9 @@ void platformDestroy(Platform *platform) {
     SDL_DestroyTexture(platform->texture);
     SDL_Quit();
 }
+
+void platformRender(Platform *platform, CPU *cpu) {
+    SDL_UpdateTexture(platform->texture, NULL, cpu->screen, 64 * sizeof(uint32_t));
+	SDL_RenderCopy(platform->renderer, platform->texture, NULL, NULL);
+    SDL_RenderPresent(platform->renderer);
+}
